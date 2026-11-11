@@ -9,28 +9,41 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
 
-    <!-- Preconnect para acelerar conexões críticas sem travar a renderização -->
+    <!-- Preconnect para acelerar conexões críticas -->
     <link rel="preconnect" href="https://player.vimeo.com">
     <link rel="preconnect" href="https://i.imgur.com" crossorigin>
     <link rel="dns-prefetch" href="https://i.imgur.com">
     <link rel="preconnect" href="https://connect.facebook.net">
 
-    <!-- CSS com carregamento otimizado não-bloqueante -->
-    <link rel="preload" href="css/index-foNjjB1C.css" as="style">
+    <!-- CSS original -->
     <link rel="stylesheet" href="css/index-foNjjB1C.css">
 
-    <!-- Meta Pixel Oficial e Otimizado -->
+    <!-- Meta Pixel inteligente: carrega em background sem travar o FCP e LCP inicial do celular -->
     <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '852313730699343');
-      fbq('track', 'PageView');
+      function initPixel() {
+        if (window.pixelLoaded) return;
+        window.pixelLoaded = true;
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '852313730699343');
+        fbq('track', 'PageView');
+      }
+
+      // Dispara imediatamente na primeira interação do usuário ou após o carregamento inicial
+      ['touchstart', 'scroll', 'mousemove', 'click'].forEach(function(e) {
+        window.addEventListener(e, initPixel, { once: true, passive: true });
+      });
+      if (document.readyState === 'complete') {
+        setTimeout(initPixel, 1800);
+      } else {
+        window.addEventListener('load', function() { setTimeout(initPixel, 1800); });
+      }
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=852313730699343&ev=PageView&noscript=1"/></noscript>
 
